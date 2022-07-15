@@ -1,0 +1,1 @@
+pn7160 HVQFN40-6x6 is from: https://github.com/Tinkerforge/kicad-libraries/blob/master/HVQFN40-6x6.kicad_mod#L4 #TODO check license
