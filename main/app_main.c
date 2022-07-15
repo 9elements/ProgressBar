@@ -9,4 +9,6 @@ void app_main(void) {
     int result = rust_main();
 
     ESP_LOGI(TAG, "Rust returned code: %d", result);
+
+    provision_wifi();
 }

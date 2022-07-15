@@ -40,4 +40,23 @@ menu "ProgressBar Configuration"
         int "I2c Master Timeout"
         default 1000
 
+    config WIFI_AP_NAME
+        string "WiFi AP Name"
+        default "ProgressBar"
+        help
+            Access point name for WiFi provisioning
+
+    config WIFI_AP_PASS
+        string "WiFi AP Password"
+        default "beertime"
+        help
+            Access point password for WiFi provisioning
+
+    config WIFI_PROV_POP
+        string "WiFi POP"
+        default "beertime"
+        help
+            Any device that want's to provision us with WiFi credentials needs proper authorization.
+            This is accomplished by the device authorizing itself to us with a Proof of Possession Key/Password.
+
 endmenu
