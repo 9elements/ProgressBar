@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "progressbar-lib")(type "KiCad")(uri "${KIPRJMOD}/progressbar-lib.kicad_sym")(options "")(descr ""))
+  (lib (name "Espressif")(type "KiCad")(uri "/home/max/kicad-libraries/libraries/Espressif.kicad_sym")(options "")(descr ""))
+)
