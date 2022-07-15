@@ -1,0 +1,70 @@
+---
+version: 3
+
+silent: true
+
+vars:
+  IDF_VERSION: v4.4.1
+
+tasks:
+  default:
+    cmds:
+      - task -l
+    interactive: true
+
+  setup:
+    desc: Setup the SDK
+    deps:
+      - download
+    cmds:
+      - unzip -u archives/esp-idf-{{.IDF_VERSION}}.zip
+      - ln -sf esp-idf-{{.IDF_VERSION}} esp-idf
+      - ./esp-idf/install.sh
+
+  download:
+    cmds:
+      - mkdir -p archives
+      - curl -L https://github.com/espressif/esp-idf/releases/download/{{.IDF_VERSION}}/esp-idf-{{.IDF_VERSION}}.zip -o archives/esp-idf-{{.IDF_VERSION}}.zip
+    status:
+      - test -f archives/esp-idf-{{.IDF_VERSION}}.zip
+
+  build:
+    desc: Build the release version of the firmware image
+    cmds:
+      - echo "If idf.py is not found make sure to source esp-idf/export.sh before running this task"
+      - rm -f sdkconfig
+      - idf.py -D SDKCONFIG_DEFAULTS="sdkconfig.defaults" build
+    env:
+      IDF_PATH: '{{.PWD}}/esp-idf'
+
+  flash:
+    desc: Flash bootloader, partiton table and app to the device
+    cmds:
+      - |
+        esptool.py \
+        --port {{.CLI_ARGS}} \
+        --before default_reset \
+        --after no_reset \
+        --chip esp32c3 \
+        write_flash \
+        0x0 build/bootloader/bootloader.bin \
+        0x8000 build/partition_table/partition-table.bin \
+        0x10000 build/progress-bar.bin
+    preconditions:
+      - sh: test -f build/bootloader/bootloader.bin
+        msg: No bootloader found.
+      - sh: test -f build/partition_table/partition-table.bin
+        msg: No partition table found.
+      - sh: test -f build/progress-bar.bin
+        msg: No app found.
+
+  erase:
+    desc: Erase the flash chip of the device
+    cmds:
+      - |
+        esptool.py \
+        --port {{.CLI_ARGS}} \
+        --before default_reset \
+        --after no_reset \
+        --chip esp32c3 \
+        erase_flash
