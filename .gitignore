@@ -1,0 +1,10 @@
+/.vscode
+/.embuild
+/.task
+/archives
+/build
+/target
+/esp-idf**
+/Cargo.lock
+sdkconfig
+sdkconfig.old
