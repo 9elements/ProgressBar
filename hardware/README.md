@@ -1,5 +1,0 @@
-# Hardware Design
-
-## Overview
-
-TODO
