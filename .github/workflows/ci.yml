@@ -4,14 +4,16 @@ name: CI
 on: pull_request
 
 jobs:
-  # commit-lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  commit-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-  #     - name: Commit Lint
-  #       uses: wagoid/commitlint-github-action@v5
+      - name: Commit-Lint
+        uses: wagoid/commitlint-github-action@v5
 
   build:
     runs-on: ubuntu-latest
