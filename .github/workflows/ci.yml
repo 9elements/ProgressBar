@@ -1,7 +1,11 @@
 ---
 name: CI
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - main
+  push:
 
 jobs:
   commit-lint:
@@ -9,8 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Commit-Lint
         uses: wagoid/commitlint-github-action@v5
@@ -21,38 +23,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Rust
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
-          rustup install nightly
-          rustup component add rust-src --toolchain nightly
-
-      - name: Install Task
-        uses: arduino/setup-task@v1
-
-      - name: SDK cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            /github/home/.espressif
-            /__w/ProgressBar/ProgressBar/archives
-          key: ${{ runner.os }}-SDK
-
-      - name: Initialize workspace
-        run: |
-          task setup
-
       - name: Build firmware
-        run: |
-          source esp-idf/export.sh
-          task build
+        uses: dagger/dagger-for-github@v3
+        with:
+          cmds: |
+            project update
+            do build
 
       - name: Upload firmware
         uses: actions/upload-artifact@v3
         with:
-          name: progress_bar_firmware_${{ github.sha }}
-          path: |
-            build/progress-bar.bin
-            build/ota_data_initial.bin
-            build/partition_table/partition-table.bin
-            build/bootloader/bootloader.bin
+          name: progress-bar-firmware-${{ github.sha }}
+          path: build/progress-bar-flash.bin
