@@ -1,15 +1,11 @@
----
 version: 3
-
 vars:
   IDF_VERSION: v4.4.2
-
 tasks:
   default:
     cmds:
       - task -l
     interactive: true
-
   setup:
     desc: Setup the SDK
     deps:
@@ -17,14 +13,12 @@ tasks:
     cmds:
       - unzip -u archives/esp-idf-{{.IDF_VERSION}}.zip
       - ./esp-idf-{{.IDF_VERSION}}/install.sh
-
   download:
     cmds:
       - mkdir -p archives
       - curl -L https://github.com/espressif/esp-idf/releases/download/{{.IDF_VERSION}}/esp-idf-{{.IDF_VERSION}}.zip -o archives/esp-idf-{{.IDF_VERSION}}.zip
     status:
       - test -f archives/esp-idf-{{.IDF_VERSION}}.zip
-
   build:
     desc: Build the release version of the firmware image
     cmds:
@@ -43,7 +37,6 @@ tasks:
         0x10000 build/progress-bar.bin
     env:
       IDF_PATH: '{{.PWD}}/esp-idf-{{.IDF_VERSION}}'
-
   flash:
     desc: Flash firmware image to the device
     cmds:
@@ -58,7 +51,6 @@ tasks:
     preconditions:
       - sh: test -f build/progress-bar-flash.bin
         msg: No flashable binary found.
-
   erase:
     desc: Erase the flash chip of the device
     cmds:
