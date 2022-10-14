@@ -22,8 +22,6 @@ tasks:
   build:
     desc: Build the release version of the firmware image
     cmds:
-      - echo "If idf.py is not found make sure to source esp-idf-{{.IDF_VERSION}}/export.sh before running this task"
-      - rm -f sdkconfig
       - idf.py -D SDKCONFIG_DEFAULTS="sdkconfig.defaults" build
       - |
         esptool.py \
