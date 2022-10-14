@@ -1,0 +1,19 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+jobs:
+  goreleaser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get Tags
+        run: git fetch --force --tags
+      - name: Goreleaser
+        uses: goreleaser/goreleaser-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
