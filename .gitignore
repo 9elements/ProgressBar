@@ -1,10 +1,7 @@
-/.vscode
-/.embuild
-/.task
-/archives
-/build
-/target
-/esp-idf**
-/Cargo.lock
-sdkconfig
-sdkconfig.old
+.vscode
+.embuild
+.task
+archives
+build
+esp-idf**
+dist
