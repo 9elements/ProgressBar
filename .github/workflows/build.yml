@@ -1,35 +1,23 @@
----
-name: CI
-
+name: Build
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-  push:
-
 jobs:
-  commit-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Commit-Lint
-        uses: wagoid/commitlint-github-action@v5
-
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Build firmware
         uses: dagger/dagger-for-github@v3
         with:
           cmds: |
             project update
             do build
-
       - name: Upload firmware
         uses: actions/upload-artifact@v3
         with:
