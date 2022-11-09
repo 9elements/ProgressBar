@@ -1,3 +1,4 @@
 (fp_lib_table
   (lib (name "progressbar-lib")(type "KiCad")(uri "${KIPRJMOD}/progressbar-lib.pretty")(options "")(descr ""))
+  (lib (name "Espressif")(type "KiCad")(uri "${KIPRJMOD}/espressif-lib/footprints/Espressif.pretty")(options "")(descr ""))
 )
