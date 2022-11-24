@@ -32,6 +32,10 @@ dagger.#Plan & {
 					args: ["build"]
 				}
 				workdir: "/src"
+				env: {
+					"RUSTUP_HOME": "/usr"
+					"CARGO_HOME": "/usr"
+				}
 				export: directories: build: _
 			}
 			output: _compile.export.directories.build

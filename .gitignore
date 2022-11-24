@@ -4,4 +4,6 @@
 archives
 build
 esp-idf**
-sdkconfig
+dist
+target
+Cargo.lock
