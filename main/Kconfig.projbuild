@@ -1,6 +1,5 @@
 menu "ProgressBar Configuration"
 
-
     config WIFI_AP_NAME
         string "WiFi AP Name"
         default ""
