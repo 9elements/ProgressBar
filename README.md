@@ -4,7 +4,7 @@
 
 ## Overview
 
-This repo contains the code for the firmware and the schematics for the ProgressBar automated payment system.
+This repository contains the code for the firmware and the schematics for the ProgressBar automated payment system.
 The device is a small IoT system based on Espressif ESP32-C3 equipped with an NFC scanner and components that ease user interaction like status LEDs.
 While the code is in early development and not fixed to a stable release, expect breaking changes!
 
@@ -17,18 +17,18 @@ The device is based on Espressifs ESP32-C3, the schematics will be found in the 
 ### Prerequisites
 
 In order to build the firmware, you'll need to have the docker engine and dagger installed.
-Docker can be installed on Linux via your distributions package manager or for other operating systems from here: https://www.docker.com
-Daggers installation instructions can be found here: https://docs.dagger.io/install
+Docker can be installed on Linux via your distributions package manager or for other operating systems from [here](https://www.docker.com).
+Daggers installation instructions can be found [here](https://docs.dagger.io/install).
 
 ### How to Build
 
 First clone the repository:
-```
+```bash
 git clone https://github.com/9elements/ProgressBar
 ```
 
 Inside the folder prepare the build environment and then compile using:
-```
+```bash
 dagger project update
 dagger do build
 ```
