@@ -1,7 +1,5 @@
 .vscode
-.embuild
 .task
 archives
 build
 esp-idf**
-dist
