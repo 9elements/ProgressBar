@@ -1,5 +1,7 @@
+.cache
 .vscode
 .task
 archives
 build
 esp-idf**
+sdkconfig
