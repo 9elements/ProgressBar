@@ -15,4 +15,4 @@
 #include <wifi_provisioning/manager.h>
 #include <wifi_provisioning/scheme_softap.h>
 
-void provision_wifi(void);
+void start_wifi(void);

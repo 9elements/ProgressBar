@@ -42,15 +42,15 @@ menu "ProgressBar Configuration"
 
     config WIFI_AP_NAME
         string "WiFi AP Name"
-        default "ProgressBar"
+        default ""
         help
-            Access point name for WiFi provisioning
+            Access point name for WiFi provisioning.
 
     config WIFI_AP_PASS
         string "WiFi AP Password"
         default "beertime"
         help
-            Access point password for WiFi provisioning
+            Access point password for WiFi provisioning.
 
     config WIFI_PROV_POP
         string "WiFi POP"

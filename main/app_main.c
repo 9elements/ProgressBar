@@ -4,9 +4,10 @@
 static const char *TAG = "main";
 
 void app_main(void) {
-    ESP_LOGI(TAG, "Started Progress Bar Scanner!");
+    ESP_LOGI(TAG, "Starting ProgressBar Scanner!");
+
+    /* Next connect to the network via WiFi */
+    start_wifi();
 
 
-
-    provision_wifi();
 }
