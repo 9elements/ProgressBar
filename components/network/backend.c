@@ -3,7 +3,7 @@
 /* This tag will be prefixed to the log messages */
 static const char *TAG = "backend";
 
-esp_err_t send_to_backend(const uint8_t *data)
+esp_err_t send_to_backend(char *data[32])
 {
     ESP_LOGI(TAG, "Sending data to backend: %s", data);
 
@@ -24,7 +24,7 @@ esp_err_t send_to_backend(const uint8_t *data)
     esp_http_client_set_header(client, "Content-Type", "application/json");
     /* Form the actual payload here */
     char *post_data;
-    asprintf(&post_data, "{\"chip_id\":\"%s\"}", data);
+    asprintf(&post_data, "{\"chip_id\":\"%s\"}", *data);
     esp_http_client_set_post_field(client, post_data, strlen(post_data));
     /* Send data to the backend server */
     esp_err_t err = esp_http_client_perform(client);

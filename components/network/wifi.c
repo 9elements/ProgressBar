@@ -130,6 +130,9 @@ static void provision_wifi(void)
 
 void start_wifi(void)
 {
+    /* NVS for phy data and credentials */
+    setup_nvs();
+
     /* Initialize TCP/IP */
     ESP_ERROR_CHECK(esp_netif_init());
 
