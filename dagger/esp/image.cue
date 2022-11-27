@@ -3,7 +3,7 @@ package esp
 import "universe.dagger.io/docker"
 
 #Image: docker.#Build & {
-    tag: string | *"v4.4.2"
+    tag: string | *"v4.4.3"
     steps: [
         docker.#Pull & {
             source: "index.docker.io/espressif/idf:\(tag)"

@@ -1,11 +1,17 @@
 version: 3
 vars:
-  IDF_VERSION: v4.4.2
+  IDF_VERSION: v4.4.3
 tasks:
   default:
     cmds:
       - task -l
     interactive: true
+  download:
+    cmds:
+      - mkdir -p archives
+      - curl -L https://github.com/espressif/esp-idf/releases/download/{{.IDF_VERSION}}/esp-idf-{{.IDF_VERSION}}.zip -o archives/esp-idf-{{.IDF_VERSION}}.zip
+    status:
+      - test -f archives/esp-idf-{{.IDF_VERSION}}.zip
   setup:
     desc: Setup the SDK
     deps:
@@ -13,14 +19,8 @@ tasks:
     cmds:
       - unzip -u archives/esp-idf-{{.IDF_VERSION}}.zip
       - ./esp-idf-{{.IDF_VERSION}}/install.sh
-  download:
-    cmds:
-      - mkdir -p archives
-      - curl -L https://github.com/espressif/esp-idf/releases/download/{{.IDF_VERSION}}/esp-idf-{{.IDF_VERSION}}.zip -o archives/esp-idf-{{.IDF_VERSION}}.zip
-    status:
-      - test -f archives/esp-idf-{{.IDF_VERSION}}.zip
   build:
-    desc: Build the release version of the firmware image
+    desc: Build the firmware image
     cmds:
       - idf.py -D SDKCONFIG_DEFAULTS="sdkconfig.defaults" build
       - |
