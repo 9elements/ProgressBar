@@ -8,6 +8,4 @@ void app_main(void) {
 
     /* Connect to the network via WiFi */
     start_wifi();
-
-
 }

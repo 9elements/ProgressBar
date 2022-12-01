@@ -6,44 +6,43 @@ static const char *TAG = "wifi";
 static const int WIFI_CONNECTED_EVENT = BIT0;
 static EventGroupHandle_t wifi_event_group;
 
-static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
-{
+static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data) {
     static int retries;
     if (event_base == WIFI_PROV_EVENT) {
         switch (event_id) {
-            case WIFI_PROV_START:
-                ESP_LOGI(TAG, "Provisioning started");
-                break;
-            case WIFI_PROV_CRED_RECV: {
-                wifi_sta_config_t *wifi_sta_cfg = (wifi_sta_config_t *) event_data;
-                ESP_LOGI(TAG, "Received WiFi credentials\n\tSSID: %s\n\tPassword: %s", (const char *) wifi_sta_cfg->ssid, (const char *) wifi_sta_cfg->password);
-                break;
-            }
-            case WIFI_PROV_CRED_FAIL: {
-                wifi_prov_sta_fail_reason_t *reason = (wifi_prov_sta_fail_reason_t *) event_data;
-                ESP_LOGE(TAG, "Provisioning failed!\n\tReason : %s\n\tPlease reset button and retry provisioning", (*reason == WIFI_PROV_STA_AUTH_ERROR) ? "WiFi station authentication failed" : "WiFi access point not found");
-                retries++;
-                if (retries >= 5) {
-                    ESP_LOGI(TAG, "Failed to connect with provisioned AP, reseting provisioned credentials");
-                    wifi_prov_mgr_reset_sm_state_on_failure();
-                    retries = 0;
-                }
-                break;
-            }
-            case WIFI_PROV_CRED_SUCCESS:
-                ESP_LOGI(TAG, "Provisioning successful");
+        case WIFI_PROV_START:
+            ESP_LOGI(TAG, "Provisioning started");
+            break;
+        case WIFI_PROV_CRED_RECV: {
+            wifi_sta_config_t *wifi_sta_cfg = (wifi_sta_config_t *) event_data;
+            ESP_LOGI(TAG, "Received WiFi credentials\n\tSSID: %s\n\tPassword: %s", (const char *) wifi_sta_cfg->ssid, (const char *) wifi_sta_cfg->password);
+            break;
+        }
+        case WIFI_PROV_CRED_FAIL: {
+            wifi_prov_sta_fail_reason_t *reason = (wifi_prov_sta_fail_reason_t *) event_data;
+            ESP_LOGE(TAG, "Provisioning failed!\n\tReason : %s\n\tPlease reset button and retry provisioning", (*reason == WIFI_PROV_STA_AUTH_ERROR) ? "WiFi station authentication failed" : "WiFi access point not found");
+            retries++;
+            if (retries >= 5) {
+                ESP_LOGI(TAG, "Failed to connect with provisioned AP, reseting provisioned credentials");
+                wifi_prov_mgr_reset_sm_state_on_failure();
                 retries = 0;
-                break;
-            case WIFI_PROV_END:
-                wifi_prov_mgr_deinit(); /* De-initialize manager once provisioning is finished */
-                break;
-            default:
-                break;
+            }
+            break;
+        }
+        case WIFI_PROV_CRED_SUCCESS:
+            ESP_LOGI(TAG, "Provisioning successful");
+            retries = 0;
+            break;
+        case WIFI_PROV_END:
+            wifi_prov_mgr_deinit(); /* De-initialize manager once provisioning is finished */
+            break;
+        default:
+            break;
         }
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
-        ip_event_got_ip_t *event = (ip_event_got_ip_t*) event_data;
+        ip_event_got_ip_t *event = (ip_event_got_ip_t *) event_data;
         ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
         xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT); /* Signal main application to continue execution */
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
@@ -52,8 +51,7 @@ static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_
     }
 }
 
-static void setup_nvs(void)
-{
+static void setup_nvs(void) {
     /* Initialize NVS partition */
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -66,20 +64,15 @@ static void setup_nvs(void)
     }
 }
 
-static void wifi_init_sta(void)
-{
+static void wifi_init_sta(void) {
     /* Start Wi-Fi in station mode */
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_start());
 }
 
-static void provision_wifi(void)
-{
+static void provision_wifi(void) {
     /* Configuration for the provisioning manager */
-    wifi_prov_mgr_config_t config = {
-        .scheme = wifi_prov_scheme_softap,
-        .scheme_event_handler = WIFI_PROV_EVENT_HANDLER_NONE
-    };
+    wifi_prov_mgr_config_t config = {.scheme = wifi_prov_scheme_softap, .scheme_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
 
     /* Initialize provisioning manager with the
      * configuration parameters set above */
@@ -100,7 +93,7 @@ static void provision_wifi(void)
         } else {
             uint8_t mac[6];
             esp_read_mac(mac, ESP_MAC_WIFI_STA);
-            asprintf(&service_name, "ProgressBar-%X%X%X%X",mac[2], mac[3], mac[4], mac[5]);  
+            asprintf(&service_name, "ProgressBar-%X%X%X%X", mac[2], mac[3], mac[4], mac[5]);
         }
 
         wifi_prov_security_t security = WIFI_PROV_SECURITY_1;
@@ -128,8 +121,7 @@ static void provision_wifi(void)
     xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_EVENT, false, true, portMAX_DELAY);
 }
 
-void start_wifi(void)
-{
+void start_wifi(void) {
     /* NVS for phy data and credentials */
     setup_nvs();
 
