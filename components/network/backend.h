@@ -5,3 +5,4 @@
 #include <esp_log.h>
 
 esp_err_t send_to_backend(char *data[32]);
+esp_err_t update_screen(void);

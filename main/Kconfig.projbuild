@@ -59,22 +59,48 @@ menu "ProgressBar Configuration"
             Any device that want's to provision us with WiFi credentials needs proper authorization.
             This is accomplished by the device authorizing itself to us with a Proof of Possession Key/Password.
 
-    config WEB_SERVER_ADDR
-        string "Backend Address"
-        default "example.org"
-        help
-            The address of the web server that hosts the payment backend.
+    menu "Payment Backend"
 
-    config WEB_SERVER_PORT
-        int "Backend Port"
-        default 80
-        help
-            Port on which the backend web server listens.
+        config API_SERVER_ADDR
+            string "API Server Address"
+            default "payment.example.org"
+            help
+                The address of the web server that hosts the payment backend.
 
-    config WEB_SERVER_PATH
-        string "Backend Path"
-        default "/api/charge"
-        help
-            Path on which to reach the backend API.
+        config API_SERVER_PORT
+            int "API Server Port"
+            default 80
+            help
+                Port on which the api web server listens.
+
+        config API_SERVER_PATH
+            string "API Server Path"
+            default "/api/charge"
+            help
+                Path on which to reach the payment api.
+
+    endmenu
+
+    menu "Screen Backend"
+
+        config SCREEN_SERVER_ADDR
+            string "Screen Server Address"
+            default "screen.example.org"
+            help
+                The address of the web server that hosts the screen backend.
+
+        config SCREEN_SERVER_PORT
+            int "Screen Server Port"
+            default 80
+            help
+                Port on which the screen web server listens.
+
+        config SCREEN_SERVER_PATH
+            string "Screen Server Path"
+            default "/"
+            help
+                Path on which to query the screen api.
+
+    endmenu
 
 endmenu
