@@ -5,3 +5,4 @@ archives
 build
 esp-idf**
 sdkconfig
+sdkconfig.old
