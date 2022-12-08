@@ -44,20 +44,13 @@ menu "ProgressBar Configuration"
         string "WiFi AP Name"
         default ""
         help
-            Access point name for WiFi provisioning.
+            WiFi access point name.
 
     config WIFI_AP_PASS
         string "WiFi AP Password"
-        default "beertime"
+        default ""
         help
-            Access point password for WiFi provisioning.
-
-    config WIFI_PROV_POP
-        string "WiFi POP"
-        default "beertime"
-        help
-            Any device that want's to provision us with WiFi credentials needs proper authorization.
-            This is accomplished by the device authorizing itself to us with a Proof of Possession Key/Password.
+            WiFi access point password.
 
     menu "Payment Backend"
 
