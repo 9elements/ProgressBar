@@ -35,6 +35,11 @@ tasks:
         0x10000 build/progress-bar.bin
     env:
       IDF_PATH: '{{.PWD}}/esp-idf-{{.IDF_VERSION}}'
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - rm -fv sdkconfig
+      - rm -fvr build/
   flash:
     desc: Flash firmware image to the device
     cmds:
