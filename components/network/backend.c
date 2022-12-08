@@ -3,7 +3,7 @@
 /* This tag will be prefixed to the log messages */
 static const char *TAG = "backend";
 
-esp_err_t send_to_backend(char *data[32]) {
+esp_err_t send_to_backend(char *data, size_t len) {
     ESP_LOGI(TAG, "Sending data to backend: %s", data);
 
     /* Configure HTTP client to use with Kconfig values */
@@ -23,12 +23,12 @@ esp_err_t send_to_backend(char *data[32]) {
     esp_http_client_set_header(client, "Content-Type", "application/json");
     /* Form the actual payload here */
     char *post_data;
-    asprintf(&post_data, "{\"chip_id\":\"%s\"}", *data);
+    asprintf(&post_data, "{\"chip_id\":\"%s\"}", data);
     esp_http_client_set_post_field(client, post_data, strlen(post_data));
     /* Send data to the api server */
     esp_err_t err = esp_http_client_perform(client);
     if (err == ESP_OK) {
-        ESP_LOGI(TAG, "HTTP POST Status: %d, content_length: %d", esp_http_client_get_status_code(client), esp_http_client_get_content_length(client));
+        ESP_LOGI(TAG, "HTTP POST Status: %d, content_length: %lld", esp_http_client_get_status_code(client), esp_http_client_get_content_length(client));
     } else {
         ESP_LOGE(TAG, "HTTP POST request failed: %s", esp_err_to_name(err));
     }
@@ -57,7 +57,7 @@ esp_err_t update_screen(void) {
     /* Send data to the screen server */
     esp_err_t err = esp_http_client_perform(client);
     if (err == ESP_OK) {
-        ESP_LOGI(TAG, "HTTP GET Status: %d, content_length: %d", esp_http_client_get_status_code(client), esp_http_client_get_content_length(client));
+        ESP_LOGI(TAG, "HTTP GET Status: %d, content_length: %lld", esp_http_client_get_status_code(client), esp_http_client_get_content_length(client));
     } else {
         ESP_LOGE(TAG, "HTTP GET request failed: %s", esp_err_to_name(err));
     }

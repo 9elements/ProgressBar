@@ -1,6 +1,6 @@
 version: 3
 vars:
-  IDF_VERSION: v4.4.3
+  IDF_VERSION: v5.0
 tasks:
   default:
     cmds:
