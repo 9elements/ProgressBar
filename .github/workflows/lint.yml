@@ -13,18 +13,18 @@ jobs:
           fetch-depth: 0
       - name: Commit-Lint
         uses: wagoid/commitlint-github-action@v5
-  super-lint:
+  cpp-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Super-Lint
-        uses: github/super-linter/slim@v4
+      - name: Cpp-Lint
+        uses: cpp-linter/cpp-linter-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_CLANG_FORMAT: true
-          VALIDATE_JSON: true
-          VALIDATE_MARKDOWN: true
-          VALIDATE_NATURAL_LANGUAGE: true
+        with:
+          style: file
+          version: 14
+          tidy-checks: '-*'
