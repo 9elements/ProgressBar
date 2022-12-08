@@ -28,7 +28,7 @@ tasks:
         --chip esp32c3 \
         merge_bin \
         --target-offset 0x0 \
-        --fill-flash-size 4MB \
+        --fill-flash-size 2MB \
         --output build/progress-bar-flash.bin \
         0x0 build/bootloader/bootloader.bin \
         0x8000 build/partition_table/partition-table.bin \
