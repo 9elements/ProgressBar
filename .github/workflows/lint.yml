@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Super-Lint
-        uses: github/super-linter@v4
+        uses: github/super-linter/slim@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CLANG_FORMAT: true
