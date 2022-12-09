@@ -8,7 +8,7 @@
 #include <esp_err.h>
 #include <esp_log.h>
 
-#include "pn7160.h"
+#include "nfc.h"
 
 #define MAX_PAYLOAD_SIZE 255
 #define MSG_HEADER_SIZE  3

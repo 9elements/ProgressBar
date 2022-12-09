@@ -40,11 +40,32 @@ static void initialize_scanner(void) {
         .sda_pullup_en = GPIO_PULLUP_ENABLE,
         .scl_pullup_en = GPIO_PULLUP_ENABLE,
         .master.clk_speed = I2C_MASTER_FREQ_HZ,
+        .clk_flags = I2C_SCLK_SRC_FLAG_LIGHT_SLEEP,
     };
 
     i2c_param_config(I2C_MASTER_NUM, &config);
 
     ESP_ERROR_CHECK(i2c_driver_install(I2C_MASTER_NUM, config.mode, I2C_MASTER_RX_BUF_SIZE, I2C_MASTER_TX_BUF_SIZE, ESP_INTR_FLAG_INTRDISABLED));
+}
+
+void reset_nfcc(void) {
+    ESP_LOGD(TAG, "called nfcc reset");
+
+    ESP_ERROR_CHECK(gpio_set_level(NFC_VEN_IQ, HIGH));
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+    ESP_ERROR_CHECK(gpio_set_level(NFC_VEN_IQ, LOW));
+}
+
+esp_err_t read_data(uint8_t *data, size_t len, TickType_t timeout) {
+    ESP_LOGD(TAG, "called read command");
+
+    return i2c_master_write_to_device(I2C_MASTER_NUM, PN7160_I2C_W_ADDR, data, len, timeout);
+}
+
+esp_err_t write_data(uint8_t *data, size_t len, TickType_t timeout) {
+    ESP_LOGD(TAG, "called write command");
+
+    return i2c_master_read_from_device(I2C_MASTER_NUM, PN7160_I2C_R_ADDR, data, len, timeout);
 }
 
 void vNfcTask(void *pvParamters) {
@@ -57,7 +78,7 @@ void vNfcTask(void *pvParamters) {
     initialize_scanner();
 
     /* Make sure the IC is in its default state */
-    reset_pn7160();
+    reset_nfcc();
 
     /* Data to be received from the scanner, zero init length 32 */
     char data[32] = {0};
