@@ -1,4 +1,5 @@
 #include "nci.h"
+#include <stdint.h>
 
 /* This tag will be prefixed to the log messages */
 static const char *TAG = "nci";
@@ -8,7 +9,8 @@ static uint8_t NUM_TAGS = 0;
 static uint8_t TAGS[10][32] = {0};
 
 static esp_err_t send_message(uint8_t type, uint8_t group, uint8_t opcode, uint8_t *payload, size_t len, TickType_t timeout) {
-    uint8_t buf[3] = {0};
+    uint8_t buf[3 + len];
+    memset(buf, 0, (3 + len) * sizeof(uint8_t));
     buf[0] = (type | group) & 0xEF; /* type and group in first byte, Packet Boundary Flag is always 0 */
     buf[1] = opcode & 0x3F;         /* opcode in second byte, clear RFU bits */
     buf[2] = len;                   /* payload len */
@@ -145,11 +147,14 @@ void nci_state_machine(nci_state_t state) {
             case LAST_NOTIFICATION_NFCC_LIMIT:
                 save_tag(RF_DISCOVER_NTF, buf);
                 nci_state_machine(RF_WAIT_FOR_HOST_SELECT);
+                break;
             case MORE_NOTIFICATION:
                 save_tag(RF_DISCOVER_NTF, buf);
                 nci_state_machine(RF_WAIT_FOR_ALL_DISCOVERIES);
+                break;
             default:
                 nci_state_machine(RF_WAIT_FOR_ALL_DISCOVERIES);
+                break;
             }
         } else {
             nci_state_machine(ERROR);
