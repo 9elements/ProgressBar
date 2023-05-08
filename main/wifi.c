@@ -51,12 +51,13 @@ void start_wifi(void) {
 
     /* Now with the network stack running we can configure the WiFi access */
     wifi_config_t wifi_config = {
-        .sta = {
-            .ssid = CONFIG_WIFI_AP_NAME,
-            .password = CONFIG_WIFI_AP_PASS,
-            .threshold.authmode = WIFI_AUTH_WPA_WPA2_PSK,
-            .sae_pwe_h2e = WPA3_SAE_PWE_BOTH,
-        },
+        .sta =
+            {
+                .ssid = CONFIG_WIFI_AP_NAME,
+                .password = CONFIG_WIFI_AP_PASS,
+                .threshold.authmode = WIFI_AUTH_WPA_WPA2_PSK,
+                .sae_pwe_h2e = WPA3_SAE_PWE_BOTH,
+            },
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));

@@ -15,4 +15,18 @@ void app_main(void) {
 
     /* Connect to the network via WiFi */
     start_wifi();
+
+    /* Data to be received from the scanner, zero init length 32 */
+    char data[32] = {0};
+
+    /* Now start a services to handle the NFC scanner */
+    MessageBufferHandle_t xMessageBuffer = xMessageBufferCreate(sizeof(data));
+    xTaskCreate(vNfcTask, "scanner", 2048, &xMessageBuffer, 5, NULL);
+
+    /* Infinite loop to listen for notifications */
+    while (true) {
+        if (xMessageBufferReceive(xMessageBuffer, (void *) data, sizeof(data), portMAX_DELAY)) {
+            send_to_backend(data, sizeof(data));
+        }
+    }
 }
