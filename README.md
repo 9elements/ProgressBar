@@ -31,8 +31,8 @@ git clone https://github.com/9elements/ProgressBar
 
 Inside the folder prepare the build environment and then compile using:
 ```bash
-dagger project update
-dagger do build
+dagger-cue project update
+dagger-cue do build
 ```
 
 ## Backend
