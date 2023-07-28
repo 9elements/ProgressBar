@@ -18,7 +18,9 @@ The device is based on Espressifs ESP32-C3, the schematics will be found in the 
 
 In order to build the firmware, you'll need to have the docker engine and dagger installed.
 Docker can be installed on Linux via your distributions package manager or for other operating systems from [here](https://www.docker.com).
-Daggers installation instructions can be found [here](https://docs.dagger.io/install).
+`dagger` installation instructions can be found [here](https://docs.dagger.io/install).
+`dagger-cue` installation instructions can be found [here](https://docs.dagger.io/sdk/cue/).
+
 
 ### How to Build
 
